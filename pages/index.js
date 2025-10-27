@@ -1,10 +1,12 @@
 import { initialTodos, validationConfig } from "../utils/constants.js";
+import Todo from "../components/Todo.js";
 
 const addTodoButton = document.querySelector(".button_action_add");
 const addTodoPopup = document.querySelector("#add-todo-popup");
 const addTodoForm = addTodoPopup.querySelector(".popup__form");
 const addTodoCloseBtn = addTodoPopup.querySelector(".popup__close");
-const todoTemplate = document.querySelector("#todo-template");
+// Keep the template as a selector string so the Todo class can query it.
+const todoTemplate = "#todo-template";
 const todosList = document.querySelector(".todos__list");
 
 const openModal = (modal) => {
@@ -16,7 +18,7 @@ const closeModal = (modal) => {
 };
 
 // The logic in this function should all be handled in the Todo class.
-const generateTodo = (data) => {
+/*const generateTodo = (data) => {
   const todoElement = todoTemplate.content
     .querySelector(".todo")
     .cloneNode(true);
@@ -50,7 +52,7 @@ const generateTodo = (data) => {
   });
 
   return todoElement;
-};
+};*/
 
 addTodoButton.addEventListener("click", () => {
   openModal(addTodoPopup);
@@ -69,13 +71,15 @@ addTodoForm.addEventListener("submit", (evt) => {
   const date = new Date(dateInput);
   date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
 
-  const values = { name, date };
-  const todo = generateTodo(values);
-  todosList.append(todo);
+  // Give the new todo a simple unique id.
+  const id = Date.now().toString();
+  const values = { id, name, date };
+  const todo = new Todo(values, todoTemplate);
+  todosList.append(todo.getView());
   closeModal(addTodoPopup);
 });
 
 initialTodos.forEach((item) => {
-  const todo = generateTodo(item);
-  todosList.append(todo);
+  const todo = new Todo(item, todoTemplate);
+  todosList.append(todo.getView());
 });
