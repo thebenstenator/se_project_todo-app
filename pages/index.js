@@ -15,7 +15,6 @@ formValidator.enableValidation();
 
 const openModal = (modal) => {
   if (modal === addTodoPopup) {
-    formValidator.resetValidation();
   }
   modal.classList.add("popup_visible");
 };
@@ -32,24 +31,30 @@ addTodoCloseBtn.addEventListener("click", () => {
   closeModal(addTodoPopup);
 });
 
+function renderTodo(item) {
+  const todo = new Todo(item, todoTemplate);
+  todosList.append(todo.getView());
+}
+
 addTodoForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  const name = evt.target.name.value;
-  const dateInput = evt.target.date.value;
-
-  const date = new Date(dateInput);
-  date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
 
   const id = uuidv4();
-  const values = { id, name, date };
-  const todo = new Todo(values, todoTemplate);
-  todosList.append(todo.getView());
+  const name = evt.target.name.value;
+  const dateInput = evt.target.date.value;
+  const values = { id, name };
+  if (dateInput) {
+    const date = new Date(dateInput);
+    date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+    values.date = date;
+  }
+
+  renderTodo(values);
   closeModal(addTodoPopup);
 
   formValidator.resetValidation();
 });
 
 initialTodos.forEach((item) => {
-  const todo = new Todo(item, todoTemplate);
-  todosList.append(todo.getView());
+  renderTodo(item);
 });

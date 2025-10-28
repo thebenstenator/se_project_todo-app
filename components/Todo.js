@@ -35,13 +35,15 @@ class Todo {
     this._todoCheckbox.id = `todo-${this._data.id}`;
     this._todoNameEl.textContent = this._data.name;
 
-    if (this._data.date) {
-      const dueDate = new Date(this._data.date);
+    const dueDate = new Date(this._data.date);
+    if (!Number.isNaN(dueDate.getTime())) {
       this._todoDate.textContent = `Due: ${dueDate.toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
         day: "numeric",
       })}`;
+    } else {
+      this._todoDate.textContent = "";
     }
 
     const label = this._todoElement.querySelector(".todo__label");
