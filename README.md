@@ -44,6 +44,6 @@ This todo app demonstrates core frontend development skills through:
 - Date formatting with JavaScript Date API
 - Modal management (open/close with overlay)
 
-## Project Structure
+## Check it out
 
 This project is deployed on [GitHub Pages](https://thebenstenator.github.io/se_project_todo-app/):
