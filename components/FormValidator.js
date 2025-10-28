@@ -64,9 +64,9 @@ class FormValidator {
       evt.preventDefault();
     });
 
-    this._setEventListeners();
-
     this._toggleButtonState();
+
+    this._setEventListeners();
   }
 
   resetValidation() {
@@ -76,8 +76,16 @@ class FormValidator {
       this._hideInputError(inputElement);
     });
 
-    this._buttonElement.classList.add(this._settings.inactiveButtonClass);
-    this._buttonElement.disabled = true;
+    const hasRequiredFields = this._inputList.some((input) =>
+      input.hasAttribute("required")
+    );
+    if (hasRequiredFields) {
+      this._buttonElement.classList.add(this._settings.inactiveButtonClass);
+      this._buttonElement.disabled = true;
+    } else {
+      this._buttonElement.classList.remove(this._settings.inactiveButtonClass);
+      this._buttonElement.disabled = false;
+    }
   }
 }
 
