@@ -9,9 +9,7 @@ import TodoCounter from "../components/TodoCounter.js";
 const addTodoButton = document.querySelector(".button_action_add");
 const addTodoPopupEl = document.querySelector("#add-todo-popup");
 const addTodoForm = addTodoPopupEl.querySelector(".popup__form");
-const addTodoCloseBtn = addTodoPopupEl.querySelector(".popup__close");
-const todoTemplate = "#todo-template";
-const todosList = document.querySelector(".todos__list");
+const todoTemplateSelector = "#todo-template";
 
 function handleCheck(completed) {
   todoCounter.updateCompleted(completed);
@@ -27,7 +25,12 @@ function handleDelete(completed) {
 const section = new Section({
   items: initialTodos,
   renderer: (item) => {
-    const todo = new Todo(item, todoTemplate, handleCheck, handleDelete);
+    const todo = new Todo(
+      item,
+      todoTemplateSelector,
+      handleCheck,
+      handleDelete
+    );
     const todoElement = todo.getView();
     section.addItem(todoElement);
   },
@@ -49,7 +52,12 @@ const addTodoPopup = new PopupWithForm({
       values.date = date;
     }
 
-    const todo = new Todo(values, todoTemplate, handleCheck, handleDelete);
+    const todo = new Todo(
+      values,
+      todoTemplateSelector,
+      handleCheck,
+      handleDelete
+    );
     const todoElement = todo.getView();
     section.addItem(todoElement);
 
